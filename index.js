@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("config");
-const mongoURI = config.get("mongoURI");
+const { cookieKey, mongoURI } = require("./config/keys");
 const { googleAuthRouter } = require("./routes/authRoutes");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
@@ -15,7 +14,7 @@ const app = express();
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in ms
-    keys: [config.get("cookieKey")], // key for encryption
+    keys: [cookieKey], // key for encryption
   })
 );
 app.use(passport.initialize());
