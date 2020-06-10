@@ -9,7 +9,13 @@ googleAuthRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-googleAuthRouter.get("/auth/google/callback", passport.authenticate("google"));
+googleAuthRouter.get(
+  "/auth/google/callback",
+  passport.authenticate("google"),
+  (req, res) => {
+    res.redirect("/surveys");
+  }
+);
 
 googleAuthRouter.get("/api/logout", (req, res) => {
   // req.logout attached by passport
@@ -17,17 +23,13 @@ googleAuthRouter.get("/api/logout", (req, res) => {
   if (req.user) {
     res.send(req.user);
   } else {
-    res.send("Not logged in");
+    res.send(null);
   }
 });
 
 googleAuthRouter.get("/api/current_user", (req, res) => {
   // req.user attached by passport
-  if (req.user) {
-    res.send(req.user);
-  } else {
-    res.send("Not logged in");
-  }
+  res.send(req.user);
 });
 
 module.exports = {

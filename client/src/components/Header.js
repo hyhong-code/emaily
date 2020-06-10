@@ -12,23 +12,17 @@ class Header extends Component {
         <a href="/auth/google">Login With Google</a>
       </li>
     ) : (
-      <div>
-        <li>
+      [
+        <li key="1">
           <Payments />
-        </li>
-        <li>
-          <a
-            style={{
-              marginRight: "1rem",
-              marginLeft: "1rem",
-              cursor: "pointer",
-            }}
-            onClick={logoutUser}
-          >
-            Logout
-          </a>
-        </li>
-      </div>
+        </li>,
+        <li key="2" style={{ margin: "0 10px" }}>
+          Credits: {auth.credits}
+        </li>,
+        <li key="3">
+          <a onClick={logoutUser}>Logout</a>
+        </li>,
+      ]
     );
   }
 

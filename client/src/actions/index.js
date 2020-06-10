@@ -27,3 +27,24 @@ export const logoutUser = () => async (dispatch) => {
     console.error(error);
   }
 };
+
+// Handle token
+export const handleToken = (token) => async (dispatch) => {
+  console.log(token);
+  try {
+    const body = JSON.stringify(token);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const resp = await axios.post("/api/stripe", body, config);
+    console.log(resp.data);
+    dispatch({
+      type: FETCH_USER,
+      payload: resp.data,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};

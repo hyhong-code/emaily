@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { cookieKey, mongoURI } = require("./config/keys");
 const { googleAuthRouter } = require("./routes/authRoutes");
+const { stripeRouter } = require("./routes/billingRoutes");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 
@@ -9,6 +10,7 @@ require("./models/User"); // Creates / register user model
 require("./services/passport"); // Get user id
 
 const app = express();
+app.use(express.json());
 
 // Middlewares
 app.use(
@@ -22,18 +24,15 @@ app.use(passport.session());
 
 // Routes
 app.use("/", googleAuthRouter);
+app.use("/", stripeRouter);
 
 // Connect to DB
 (async () => {
-  try {
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("MongoDB Atlas Connected...");
-  } catch (error) {
-    console.error(error.message);
-  }
+  await mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  console.log("MongoDB Atlas Connected...");
 })();
 
 const PORT = process.env.PORT || 5000;

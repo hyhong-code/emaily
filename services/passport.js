@@ -34,11 +34,11 @@ passport.use(
       try {
         const existingUser = await User.findOne({ googleId: id });
         if (existingUser) {
-          done(null, existingUser); // existingUser is the 1st argument of serializeUser callback
-        } else {
-          const newUser = await new User({ googleId: id }).save();
-          done(null, newUser);
+          return done(null, existingUser); // existingUser is the 1st argument of serializeUser callback
         }
+        // Save new user
+        const newUser = await new User({ googleId: id }).save();
+        done(null, newUser);
       } catch (error) {
         console.error(error.message);
       }
