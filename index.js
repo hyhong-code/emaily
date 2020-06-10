@@ -26,6 +26,17 @@ app.use(passport.session());
 app.use("/", googleAuthRouter);
 app.use("/", stripeRouter);
 
+if (process.env.NODE_ENV === "production") {
+  // If production, express serves up production assets
+  app.use(express.static("client/build"));
+
+  // Catch all route - index.html
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 // Connect to DB
 (async () => {
   await mongoose.connect(mongoURI, {
