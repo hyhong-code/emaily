@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/index";
 import { Link } from "react-router-dom";
+import Payments from "./Payments";
 
 class Header extends Component {
   renderContent() {
@@ -11,14 +12,23 @@ class Header extends Component {
         <a href="/auth/google">Login With Google</a>
       </li>
     ) : (
-      <li>
-        <span
-          style={{ marginRight: "1rem", cursor: "pointer" }}
-          onClick={logoutUser}
-        >
-          Logout
-        </span>
-      </li>
+      <div>
+        <li>
+          <Payments />
+        </li>
+        <li>
+          <a
+            style={{
+              marginRight: "1rem",
+              marginLeft: "1rem",
+              cursor: "pointer",
+            }}
+            onClick={logoutUser}
+          >
+            Logout
+          </a>
+        </li>
+      </div>
     );
   }
 
@@ -27,7 +37,11 @@ class Header extends Component {
     return (
       <nav>
         <div className="nav-wrapper">
-          <Link to={`${auth ? "/surveys" : "/"}`} className="left brand-logo">
+          <Link
+            to={`${auth ? "/surveys" : "/"}`}
+            className="left brand-logo"
+            style={{ display: "block", marginLeft: "1rem" }}
+          >
             Emaily
           </Link>
           <ul className="right">{this.renderContent()}</ul>
